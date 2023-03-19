@@ -16,7 +16,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+from mechanical.views import cars
+
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("cars/", include("mechanical.urls")),
+    path("cars/", cars),
 ]

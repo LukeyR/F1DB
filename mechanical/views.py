@@ -8,6 +8,13 @@ from personnel.models import Country
 
 # Create your views here.
 @api_view(["GET"])
+def cars(request):
+    print(request.query_params)
+    if request.query_params.get("with_drivers", "False") == "True":
+        return driver_cars(request)
+    else:
+        return team_cars(request)
+
 def driver_cars(request):
     return_flat = request.query_params.get("flat", "False") == "True"
     return_very_flat = request.query_params.get("very_flat", "False") == "True"
@@ -44,7 +51,6 @@ def driver_cars(request):
             cars[team_car.team.team_name] = body
     return Response(data=cars)
 
-@api_view(["GET"])
 def team_cars(request):
     cars = {}
     for team_car in TeamCar.objects.all():

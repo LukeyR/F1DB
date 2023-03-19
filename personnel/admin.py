@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Person, Team, Country, TeamMember
+from .models import Person, Team, Country, TeamMember, Driver
 
 
 class TeamMemberAdmin(admin.TabularInline):
@@ -19,16 +19,18 @@ class TeamAdmin(admin.ModelAdmin):
 class PersonAdmin(admin.ModelAdmin):
     fields = (
         ("first_name", "last_name", "nationality"),
-        (
-            "is_driver",
-            "driver_abbreviation",
-            "driver_number",
-            "secondary_driver_number",
-        ),
+    )
+
+
+class DriverAdmin(admin.ModelAdmin):
+    fields = (
+        ("driver", "driver_abbreviation",),
+        ("driver_number", "secondary_driver_number"),
     )
 
 
 # Register your models here.
 admin.site.register(Person, PersonAdmin)
+admin.site.register(Driver, DriverAdmin)
 admin.site.register(Team, TeamAdmin)
 admin.site.register(Country)

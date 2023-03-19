@@ -17,14 +17,12 @@ class TeamAdmin(admin.ModelAdmin):
 
 
 class PersonAdmin(admin.ModelAdmin):
-    fields = (
-        ("first_name", "last_name", "nationality"),
-    )
+    fields = (("first_name", "last_name", "nationality"),)
 
 
 class DriverAdmin(admin.ModelAdmin):
     fields = (
-        ("driver", "driver_abbreviation",),
+        ("driver", "driver_abbreviation"),
         ("driver_number", "secondary_driver_number"),
     )
 

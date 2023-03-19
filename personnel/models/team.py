@@ -75,9 +75,7 @@ class Team(models.Model):
             )
         if Driver.objects.filter(driver_id=self.team_principal_id).exists():
             raise ValidationError(
-                AutoTranslate(
-                    "The team principal cannot be a driver"
-                )
+                AutoTranslate("The team principal cannot be a driver")
             )
 
     def drivers(self):

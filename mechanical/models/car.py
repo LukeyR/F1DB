@@ -16,9 +16,7 @@ class TeamCar(models.Model):
     def clean(self):
         if not self.engine.is_current_producer:
             raise ValidationError(
-                AutoTranslate(
-                    "Engine supplier must be an active manufacturer"
-                )
+                AutoTranslate("Engine supplier must be an active manufacturer")
             )
 
     def __str__(self):

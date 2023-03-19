@@ -6,7 +6,7 @@ from personnel.serializers import DriverSerializer
 from personnel.models import Country
 
 
-# Create your views here.
+# Probably worth turning this into a class?
 @api_view(["GET"])
 def cars(request):
     print(request.query_params)
@@ -14,6 +14,7 @@ def cars(request):
         return driver_cars(request)
     else:
         return team_cars(request)
+
 
 def driver_cars(request):
     return_flat = request.query_params.get("flat", "False") == "True"
@@ -26,7 +27,7 @@ def driver_cars(request):
                 {
                     "car_id": team_car.id,
                     "engine_supplier": team_car.engine.manufacturer,
-                    **DriverSerializer(driver).data
+                    **DriverSerializer(driver).data,
                 }
                 for driver in team_car.team.drivers()
             ]
@@ -37,7 +38,7 @@ def driver_cars(request):
                     "car_id": team_car.id,
                     "team": team_car.team.team_name,
                     "engine_supplier": team_car.engine.manufacturer,
-                    **DriverSerializer(driver).data
+                    **DriverSerializer(driver).data,
                 }
                 for driver in team_car.team.drivers()
             ]
@@ -46,10 +47,14 @@ def driver_cars(request):
             body = {
                 "car_id": team_car.id,
                 "engine_supplier": team_car.engine.manufacturer,
-                "drivers": DriverSerializer(team_car.team.drivers(), many=True).data
+                "drivers": DriverSerializer(
+                    team_car.team.drivers(),
+                    many=True,
+                ).data,
             }
             cars[team_car.team.team_name] = body
     return Response(data=cars)
+
 
 def team_cars(request):
     cars = {}
@@ -59,4 +64,3 @@ def team_cars(request):
             "engine_supplier": team_car.engine.manufacturer,
         }
     return Response(data=cars)
-

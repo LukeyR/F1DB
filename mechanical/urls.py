@@ -1,14 +1,13 @@
 from django.urls import path
+from rest_framework.routers import DefaultRouter
 
 from . import views
+from .serializers import TeamCarWithDriversSerializer
+from .views import TeamCarViewSet
 
+router = DefaultRouter()
+router.register(r'cars', TeamCarViewSet, basename='cars')
+# router.register(r'cars_with_drivers', TeamCarWithDriversViewSet, basename='cars_with_drivers')
 urlpatterns = [
-    path("", views.team_cars, name="as_cars"),
-    path("with_drivers/", views.driver_cars, name="with_drivers"),
-    path("<str:team>/", views.team_cars, name="as_car_filterd"),
-    path(
-        "<str:team>/with_drivers/",
-        views.driver_cars,
-        name="with_drivers_filterd",
-    ),
-]
+    path(r'cars/<str:team_name>/with_drivers/', TeamCarViewSet.as_view({'get': 'with_drivers'}), name='cars-with-drivers-by-team'),
+] + router.urls
